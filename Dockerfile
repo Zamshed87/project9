@@ -1,11 +1,17 @@
-# Use an official Nginx image
-FROM nginx:latest
 
-# Copy the configuration file into the image
-COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80 to the outside world
-EXPOSE 80
+# Dockerfile
+FROM node:14
 
-# Start Nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+EXPOSE 8080
+CMD [ "node", "app.js" ]
